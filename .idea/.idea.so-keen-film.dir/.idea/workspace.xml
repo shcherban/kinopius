@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="39cc63b2-ec87-4c2d-8479-5fe12cc4d0ea" name="Changes" comment="" />
+    <list default="true" id="39cc63b2-ec87-4c2d-8479-5fe12cc4d0ea" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.so-keen-film.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.so-keen-film.dir/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,6 +33,8 @@
       <option name="presentableId" value="Default" />
       <updated>1667417226029</updated>
       <workItem from="1667417238402" duration="856000" />
+      <workItem from="1667422005289" duration="1225000" />
+      <workItem from="1667427814950" duration="16000" />
     </task>
     <servers />
   </component>
@@ -38,8 +42,19 @@
     <option name="version" value="3" />
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
-  <component name="UnityProjectConfiguration" hasMinimizedUI="null" />
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>

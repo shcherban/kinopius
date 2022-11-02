@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kst\\RiderProjects\\so-keen-film\\API\\API.csproj": {}
+    "C:\\Projects\\so-keen-film\\API\\API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kst\\RiderProjects\\so-keen-film\\API\\API.csproj": {
+    "C:\\Projects\\so-keen-film\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kst\\RiderProjects\\so-keen-film\\API\\API.csproj",
+        "projectUniqueName": "C:\\Projects\\so-keen-film\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\kst\\RiderProjects\\so-keen-film\\API\\API.csproj",
+        "projectPath": "C:\\Projects\\so-keen-film\\API\\API.csproj",
         "packagesPath": "C:\\Users\\kst\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kst\\RiderProjects\\so-keen-film\\API\\obj\\",
+        "outputPath": "C:\\Projects\\so-keen-film\\API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
