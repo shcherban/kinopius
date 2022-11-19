@@ -1,2 +1,2 @@
 # so-keen-film
-An app for check in your watched films
+An app for for searching, listing, estimating and reviewing films
