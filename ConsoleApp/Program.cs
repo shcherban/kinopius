@@ -8,14 +8,15 @@ namespace ConsoleApp
     {
         public static void Main(string[] args)
         {
-            //Console.WriteLine("Enter title: ");
-            //var title = Console.ReadLine();
+            Console.WriteLine("Enter title: ");
+            var title = Console.ReadLine();
+            var searchString = title.Replace(' ', '+');
 
             string APIKEY = Environment.GetEnvironmentVariable("OMDbApiKey", EnvironmentVariableTarget.User);
             
             Console.WriteLine(APIKEY);
 
-            HttpWebRequest request = WebRequest.CreateHttp($"http://www.omdbapi.com/?i=tt3896198&apikey={APIKEY}");
+            HttpWebRequest request = WebRequest.CreateHttp($"http://www.omdbapi.com/?apikey={APIKEY}&t={searchString}");
 
             using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
             {
