@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using Newtonsoft.Json;
@@ -35,13 +36,22 @@ namespace ConsoleApp
 
             Film film = JsonConvert.DeserializeObject<Film>(json);
 
-            Console.WriteLine(film.Title);
-            Console.WriteLine(film.Year);
-            Console.WriteLine(film.Director);
-            Console.WriteLine(film.Writer);
-            Console.WriteLine(film.Actors);
-            Console.WriteLine(film.Plot);
-            Console.WriteLine(film.Poster);
+            Console.WriteLine(film?.Title);
+            Console.WriteLine(film?.Year);
+            Console.WriteLine(film?.Director);
+            Console.WriteLine(film?.Writer);
+            Console.WriteLine(film?.Actors);
+            Console.WriteLine(film?.Plot);
+            Console.WriteLine(film?.Poster);
+
+            try
+            {
+                Process.Start(film?.Poster);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
 
             Console.ReadKey();
         }
