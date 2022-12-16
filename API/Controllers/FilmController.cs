@@ -19,7 +19,9 @@ public class FilmController : ControllerBase
             {
                 Id = index.ToString(),
                 Title = "Title",
-                ReleaseDate = DateTime.Today
+                ReleaseDate = DateTime.Today,
+                Description = "бла-бла-бла",
+                Rate = new Rate(new Param[]{Param.Direction,Param.Plot}, new int[]{3,4})
             })
             .ToArray();
     }
