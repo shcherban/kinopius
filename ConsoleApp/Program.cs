@@ -20,7 +20,7 @@ namespace ConsoleApp
 
             Console.WriteLine(APIKEY);
 
-            HttpWebRequest request = WebRequest.CreateHttp($"http://www.omdbapi.com/?apikey={APIKEY}&t={searchString}");
+            HttpWebRequest request = WebRequest.CreateHttp($"http://www.omdbapi.com/?apikey={APIKEY}&s={searchString}");
 
             string json;
 
@@ -35,26 +35,31 @@ namespace ConsoleApp
                 }
             }
 
-            Film film = JsonConvert.DeserializeObject<Film>(json);
+            Console.WriteLine(json);
 
-            Console.WriteLine(film?.Title);
-            Console.WriteLine(film?.Year);
-            Console.WriteLine(film?.Director);
-            Console.WriteLine(film?.Writer);
-            Console.WriteLine(film?.Actors);
-            Console.WriteLine(film?.Plot);
-            Console.WriteLine(film?.Poster);
+            SearchResult searchResult = JsonConvert.DeserializeObject<SearchResult>(json);
 
-            try
+            foreach (Film film in searchResult.Search)
             {
-                Process.Start(film?.Poster);
+                DisplayFilm(film);
+                Console.ReadKey();
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+        }
 
-            Console.ReadKey();
+        private static void DisplayFilm(Film film)
+        {
+            //film = JsonConvert.DeserializeObject<Film>(json);
+
+            if (film == null) return;
+            Console.WriteLine("-------------------");
+            var props = film.GetType().GetProperties();
+            foreach (var prop in props)
+            {
+                
+                var value = prop.GetValue(film);
+                if (value != null) Console.WriteLine($"{prop.Name} = {value}");
+            }
+            Console.WriteLine("-------------------");
         }
     }
 }
