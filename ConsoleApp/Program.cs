@@ -42,6 +42,7 @@ namespace ConsoleApp
             foreach (Film film in searchResult.Search)
             {
                 DisplayFilm(film);
+                DisplayFilm(Domain.Film.FromOMDbFilm(film));
                 Console.ReadKey();
             }
         }
@@ -51,7 +52,21 @@ namespace ConsoleApp
             //film = JsonConvert.DeserializeObject<Film>(json);
 
             if (film == null) return;
+            Console.WriteLine("---------OMDbFilm----------");
+            var props = film.GetType().GetProperties();
+            foreach (var prop in props)
+            {
+                
+                var value = prop.GetValue(film);
+                if (value != null) Console.WriteLine($"{prop.Name} = {value}");
+            }
             Console.WriteLine("-------------------");
+        }
+
+        private static void DisplayFilm(Domain.Film film)
+        {
+            if (film == null) return;
+            Console.WriteLine("---------Film----------");
             var props = film.GetType().GetProperties();
             foreach (var prop in props)
             {
