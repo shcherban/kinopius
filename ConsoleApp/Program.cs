@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using Domain;
 using Newtonsoft.Json;
 using Domain.OMDb;
+using Film = Domain.OMDb.Film;
 
 namespace ConsoleApp
 {
@@ -14,36 +16,22 @@ namespace ConsoleApp
         {
             Console.WriteLine("Enter title: ");
             var title = Console.ReadLine();
-            var searchString = title.Replace(' ', '+');
 
-            string APIKEY = Environment.GetEnvironmentVariable("OMDbApiKey", EnvironmentVariableTarget.User);
+            Engine engine = new Engine();
+            SearchResult searchResult = engine.GetOMDbResponse(title);
 
-            Console.WriteLine(APIKEY);
-
-            HttpWebRequest request = WebRequest.CreateHttp($"http://www.omdbapi.com/?apikey={APIKEY}&s={searchString}");
-
-            string json;
-
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            if (searchResult.Response)
             {
-                using (Stream stream = response.GetResponseStream())
+                foreach (Film film in searchResult.Search)
                 {
-                    using (StreamReader reader = new StreamReader(stream))
-                    {
-                        json = reader.ReadToEnd();
-                    }
+                    DisplayFilm(film);
+                    DisplayFilm(Domain.Film.FromOMDbFilm(film));
+                    Console.ReadKey();
                 }
             }
-
-            Console.WriteLine(json);
-
-            SearchResult searchResult = JsonConvert.DeserializeObject<SearchResult>(json);
-
-            foreach (Film film in searchResult.Search)
+            else
             {
-                DisplayFilm(film);
-                DisplayFilm(Domain.Film.FromOMDbFilm(film));
-                Console.ReadKey();
+                Console.WriteLine(searchResult.Error);
             }
         }
 
