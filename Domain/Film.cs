@@ -1,18 +1,28 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Domain
 {
     public class Film
     {
         public string? Id { get; set; }
-        public string? Title { get; set; }
+        public Dictionary<string, string> Titles { get; set; }
         public DateTime ReleaseDate { get; set; }
         public int Year { get; set; }
         public string? Description { get; set; }
         public Rating Rating { get; set; }
 
+        public string FilmInfo => $"{Titles["en"]}{Environment.NewLine}{Year.ToString()}{Environment.NewLine}{Description}";
+
+        public Film()
+        {
+            Titles = new Dictionary<string, string>();
+            Rating = new Rating();
+        }
+        
+        public  OMDb.Film OMDbFilm { get; set; }
         public OMDb.Film ToOMDbFilm()
         {
             var result = new OMDb.Film();
@@ -23,7 +33,7 @@ namespace Domain
         public static Film FromOMDbFilm(OMDb.Film omdbFilm)
         {
             var result = new Film();
-            result.Title = omdbFilm.Title;
+            result.Titles.Add("en", omdbFilm.Title);
             result.Description = omdbFilm.Plot;
             result.Id = omdbFilm.imdbID;
             DateTime releaseDate;
@@ -41,6 +51,12 @@ namespace Domain
         public Param[] Params { get; set; }
         public Dictionary<Param, int> Rates { get; set; }
 
+        public Rating()
+        {
+            Rates = new Dictionary<Param, int>();
+            Params = new Param[2];
+        }
+        
         public Rating(Param[] @params, int[] rates)
         {
             Rates = new Dictionary<Param, int>();

@@ -55,17 +55,32 @@ namespace WpfApp
                 lastSearchResult = engine.GetOMDbResponse(Search.Text);
             }
             
-            if (true)//lastSearchResult.Response)
+            if (lastSearchResult.Response)
             {
-                    DisplayFilm(lastSearchResult.Search[i]);
-                    DisplayFilm(Domain.Film.FromOMDbFilm(lastSearchResult.Search[i]));
-                    Result.Text = sb.ToString();
+                /*foreach (var film in lastSearchResult.Search)
+                {
+                    DisplayFilm(film);
+                    DisplayFilm(Domain.Film.FromOMDbFilm(film));
+                }
+                Result.Text = sb.ToString();
+*/
+                filmList.Items.Clear();
+                filmList.ItemsSource = lastSearchResult.Search.Select(x => Domain.Film.FromOMDbFilm(x));
+            }
+            else
+            {
+                ListBoxItem lbi = new ListBoxItem();
+                lbi.Content = "Nothing is found";
+                filmList.ItemsSource = null;
+                filmList.Items.Add(lbi);
+                sb.Clear();
+                sb.AppendLine("Nothing is found");
             }
 
             sb.Clear();
         }
         
-        private void DisplayFilm(Film film)
+        private void DisplayFilm(Film? film)
         {
             if (film == null) return;
             sb.AppendLine("---------OMDbFilm----------");
@@ -79,7 +94,7 @@ namespace WpfApp
             sb.AppendLine("-------------------");
         }
 
-        private void DisplayFilm(Domain.Film film)
+        private void DisplayFilm(Domain.Film? film)
         {
             if (film == null) return;
             sb.AppendLine("---------Film----------");
