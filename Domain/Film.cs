@@ -13,8 +13,11 @@ namespace Domain
         public int Year { get; set; }
         public string? Description { get; set; }
         public Rating Rating { get; set; }
+        public Uri PosterUri { get; set; }
 
         public string FilmInfo => $"{Titles["en"]}{Environment.NewLine}{Year.ToString()}{Environment.NewLine}{Description}";
+
+        
 
         public Film()
         {
@@ -42,6 +45,14 @@ namespace Domain
             int year;
             bool yearParseResult = Int32.TryParse(omdbFilm.Year, out year);
             if (yearParseResult) result.Year = year;
+            try
+            {
+                result.PosterUri = new Uri(omdbFilm.Poster);
+            }
+            catch
+            {
+                result.PosterUri = null;
+            }
             return result;
         }
     }

@@ -5,6 +5,7 @@ using System.DirectoryServices.ActiveDirectory;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,6 +20,7 @@ using System.Windows.Shapes;
 using Domain;
 using Domain.OMDb;
 using Film = Domain.OMDb.Film;
+using Path = System.IO.Path;
 using SearchResult = Domain.OMDb.SearchResult;
 
 namespace WpfApp
@@ -29,43 +31,37 @@ namespace WpfApp
     public partial class MainWindow : Window
     {
         private Engine engine;
-        private string lastSearchString;
-        private SearchResult lastSearchResult;
+        private SearchResult searchResult;
         private int i;
         private StringBuilder sb;
-        
+        private Uri NAPosterUri;
+        private Domain.Film SelectedFilm { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
             engine = new Engine();
-            lastSearchString = "sdkhfs;dghasdgjhasdk";
             sb = new StringBuilder();
+            try
+            {
+                NAPosterUri = new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "No_image_poster.png"));
+            }
+            catch
+            {
+                
+            }
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            if (lastSearchString == Search.Text)
-            {
-                i++;
-            }
-            else
-            {
-                i = 0;
-                lastSearchString = Search.Text;
-                lastSearchResult = engine.GetOMDbResponse(Search.Text);
-            }
+
+            searchResult = engine.GetOMDbResponse(Search.Text);
             
-            if (lastSearchResult.Response)
+            if (searchResult.Response)
             {
-                /*foreach (var film in lastSearchResult.Search)
-                {
-                    DisplayFilm(film);
-                    DisplayFilm(Domain.Film.FromOMDbFilm(film));
-                }
-                Result.Text = sb.ToString();
-*/
+                filmList.ItemsSource = null;
                 filmList.Items.Clear();
-                filmList.ItemsSource = lastSearchResult.Search.Select(x => Domain.Film.FromOMDbFilm(x));
+                filmList.ItemsSource = searchResult.Search.Select(x => Domain.Film.FromOMDbFilm(x));
             }
             else
             {
@@ -106,6 +102,17 @@ namespace WpfApp
                 if (value != null) sb.AppendLine($"{prop.Name} = {value}");
             }
             sb.AppendLine("-------------------");
+        }
+
+        private void FilmList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectedFilm = (sender as ListBox)?.SelectedItem as Domain.Film;
+            Title.Content = SelectedFilm?.Titles["en"] ?? "";
+            BitmapImage poster = new BitmapImage();
+            poster.BeginInit();
+            poster.UriSource = SelectedFilm?.PosterUri ?? NAPosterUri;
+            poster.EndInit();
+            Poster.Source = poster;
         }
     }
 }
