@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9RhXy182Ey0m3rWLueygzzX5JYUwY6Zm8BL1ZGeZw74JIaytfw8U/HBroFlkbANWjpADqIe6NlpWY+49thKBFA==",
+  "dgSpecHash": "SnFIQYhlNPRhSQS0aFeDYT4+a+PrpCSV1zult07A9hWnGJWqUtDun3xIWcgyWZ60JT2UKJFK3F0SKw00+B+sVQ==",
   "success": true,
-  "projectFilePath": "C:\\Projects\\so-keen-film\\API\\API.csproj",
+  "projectFilePath": "C:\\Projects\\kinopius\\API\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\kst\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\kst\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
