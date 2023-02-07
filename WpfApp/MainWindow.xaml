@@ -12,13 +12,13 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" Margin="10, 10,10,10">
-            <TextBox x:Name="Search" Width="720" />
-            <Button Width="40" Click="ButtonBase_OnClick">
+            <TextBox Name="Search" Width="720" KeyDown="Search_OnKeyDown" TextChanged="Search_OnTextChanged" TabIndex="0"/>
+            <Button Width="40" Click="ButtonBase_OnClick" Focusable="False">
                 Go
             </Button>
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Stretch" Margin="10, 10,10,10">
-            <ListBox Name="filmList" HorizontalAlignment="Stretch" Width="470" SelectionChanged="FilmList_OnSelectionChanged">
+            <ListBox Name="filmList" HorizontalAlignment="Stretch" Width="470" SelectionChanged="FilmList_OnSelectionChanged" TabIndex="1">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                        <TextBlock Text="{Binding FilmInfo}"/> 

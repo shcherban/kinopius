@@ -30,89 +30,122 @@ namespace WpfApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Engine engine;
-        private SearchResult searchResult;
-        private int i;
-        private StringBuilder sb;
-        private Uri NAPosterUri;
-        private Domain.Film SelectedFilm { get; set; }
+        private readonly Engine _engine;
+        private SearchResult? _searchResult;
+        private readonly StringBuilder _stringBuilder;
+        private readonly Uri? _naPosterUri;
+        private Domain.Film? SelectedFilm { get; set; }
+        private string? _currentSearchText;
 
         public MainWindow()
         {
             InitializeComponent();
-            engine = new Engine();
-            sb = new StringBuilder();
+            _engine = new Engine();
+            _stringBuilder = new StringBuilder();
             try
             {
-                NAPosterUri = new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "No_image_poster.png"));
+                _naPosterUri = new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "No_image_poster.png"));
             }
             catch
             {
-                
+                // ignored
             }
+
+            Search.Focus();
         }
 
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        private void SearchFilmsByTitle()
         {
-
-            searchResult = engine.GetOMDbResponse(Search.Text);
-            
-            if (searchResult.Response)
+            if (Search.Text == _currentSearchText) return;
+            _currentSearchText = Search.Text;
+            _searchResult = _engine.GetOMDbResponse(Search.Text);
+            if (_searchResult.Response)
             {
                 filmList.ItemsSource = null;
                 filmList.Items.Clear();
-                filmList.ItemsSource = searchResult.Search.Select(x => Domain.Film.FromOMDbFilm(x));
+                filmList.ItemsSource = _searchResult.Search.Select(x => Domain.Film.FromOMDbFilm(x));
+                filmList.SelectedItem = filmList.Items[0];
             }
             else
             {
-                ListBoxItem lbi = new ListBoxItem();
-                lbi.Content = "Nothing is found";
+                var lbi = new ListBoxItem
+                {
+                    Content = "Nothing is found"
+                };
                 filmList.ItemsSource = null;
+                filmList.Items.Clear();
                 filmList.Items.Add(lbi);
-                sb.Clear();
-                sb.AppendLine("Nothing is found");
+                _stringBuilder.Clear();
+                _stringBuilder.AppendLine("Nothing is found");
             }
-
-            sb.Clear();
+            _stringBuilder.Clear();
         }
         
         private void DisplayFilm(Film? film)
         {
             if (film == null) return;
-            sb.AppendLine("---------OMDbFilm----------");
+            _stringBuilder.AppendLine("---------OMDbFilm----------");
             var props = film.GetType().GetProperties();
             foreach (var prop in props)
             {
                 var value = prop.GetValue(film);
-                if (value != null) sb.AppendLine($"{prop.Name} = {value}");
+                if (value != null) _stringBuilder.AppendLine($"{prop.Name} = {value}");
             }
 
-            sb.AppendLine("-------------------");
+            _stringBuilder.AppendLine("-------------------");
         }
 
         private void DisplayFilm(Domain.Film? film)
         {
             if (film == null) return;
-            sb.AppendLine("---------Film----------");
+            _stringBuilder.AppendLine("---------Film----------");
             var props = film.GetType().GetProperties();
             foreach (var prop in props)
             {
                 
                 var value = prop.GetValue(film);
-                if (value != null) sb.AppendLine($"{prop.Name} = {value}");
+                if (value != null) _stringBuilder.AppendLine($"{prop.Name} = {value}");
             }
-            sb.AppendLine("-------------------");
+            _stringBuilder.AppendLine("-------------------");
         }
 
         private void FilmList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectedFilm = (sender as ListBox)?.SelectedItem as Domain.Film;
             Title.Content = SelectedFilm?.Titles["en"] ?? "";
-            BitmapImage poster = new BitmapImage();
-            poster.BeginInit();
-            poster.UriSource = SelectedFilm?.PosterUri ?? NAPosterUri;
-            poster.EndInit();
-            Poster.Source = poster;
+            Grade1.Text = SelectedFilm?.Grade1 ?? "";
+            Grade2.Text = SelectedFilm?.Grade2 ?? "";
+            try
+            {
+                var poster = new BitmapImage();
+                poster.BeginInit();
+                poster.UriSource = SelectedFilm?.PosterUri ?? _naPosterUri;
+                poster.EndInit();
+                Poster.Source = poster;
+            }
+            catch
+            {
+                Poster.Source = null;
+            }
+        }
+
+        private async void Search_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            await Task.Delay(1500);
+            SearchFilmsByTitle();
+        }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            SearchFilmsByTitle();
+        }
+
+        private void Search_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                SearchFilmsByTitle();
+            }
         }
     }
 }

@@ -15,6 +15,10 @@ namespace Domain
         public Rating Rating { get; set; }
         public Uri PosterUri { get; set; }
 
+        public string Grade1, Grade2;
+        public Boolean isSeen;
+        public string Review;
+
         public string FilmInfo => $"{Titles["en"]}{Environment.NewLine}{Year.ToString()}{Environment.NewLine}{Description}";
 
         
@@ -54,6 +58,22 @@ namespace Domain
                 result.PosterUri = null;
             }
             return result;
+        }
+
+        public bool Save()
+        {
+            bool success = false;
+
+            try
+            {
+                
+            }
+            catch
+            {
+                success = false;
+            }
+            
+            return success;
         }
     }
 
