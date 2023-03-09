@@ -8,7 +8,7 @@ const films = [
 
 const listItems = films.map(film =>
 <li key={film.id}>
-    {film.title}
+    <Film id={film.id} title={film.title}/>
 </li>)
 
 function List() {

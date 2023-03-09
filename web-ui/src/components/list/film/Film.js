@@ -1,8 +1,8 @@
 import React from 'react';
 
-function Film() {
+function Film({id, title}) {
     return (
-        <div>Кино</div>
+        <div>{title}</div>
     )
 }
 
